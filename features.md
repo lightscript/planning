@@ -15,7 +15,7 @@ Syntax
 - fat arrows 
     - bound methods
 - "{interpolation}"
-- not
+- not (?)
 - if-:-else ternaries
 - one-line if/for with :
 - dot-access for ints and strings
