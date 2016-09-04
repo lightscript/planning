@@ -3,27 +3,31 @@
 
 
 
-## Assignment   
+## Variables & Assignment   
 
 ## `const`
-    foo = 'hello'
+    foo := 'hello'
+
+## Annotated `const`
+    foo: string = 'hello'
+LightScript uses Facebook's [Flow](flowtype.org) typechecker and type syntax.
 
 ## `let`
-    let bar = 3
+    let bar := 3
     bar = 4
-    
+
     let baz
     baz = 4
 
+## Annotated `let`
+    let baz: string = 'foo'
+
+    let bar: number
+    bar = 3
+LightScript uses Facebook's [Flow](flowtype.org) typechecker and type syntax.
+
 ## `var`
 `var` will probably not be added.
-
-## Annotated
-    foo: string = 'hello'
-    maybeFoo: ?string = foo || null
-    let bar: number
-    let baz: number = 'foo'
-LightScript uses Facebook's [Flow](flowtype.org) typechecker and type syntax.
 
 
 ## Comments
@@ -66,14 +70,14 @@ See also [await]()
 ## Methods
 
 ### Basic Methods
-    obj = {
+    obj := {
       foo() -> 'hello'
       bar() ->
         'hi there'
     }
 
 ### Bound Methods
-    obj = {
+    obj := {
       name: 'Jack'
       foo() => this.name.toUpperCase()
     }
@@ -87,7 +91,7 @@ See also [await]()
     obj.foo = obj.foo.bind(obj);
 
 ### Getters and Setters
-    obj = {
+    obj := {
       get foo() -> 'hello'
       set foo(newValue) -> this._foo = newValue
     }
@@ -114,15 +118,15 @@ See also [Classes]().
       # ...
 
 ### Ternaries
-    animal = if canBark: 'dog' else 'cow'
+    animal := if canBark: 'dog' else 'cow'
 
 ### `null`-default Ternaries 
-    animal = if canBark: 'dog'
+    animal := if canBark: 'dog'
 ---
     const animal = canBark ? 'dog' : null;
 
 ### Multiline Ternaries (aka `if` expressions)
-    animal = if canBark
+    animal := if canBark
         'dog'
       else if canMeow
         'cat'
@@ -134,11 +138,11 @@ TBD: if you need the extra indent or not.
 ## Logic
 
 ### or
-    c = a || b
+    c := a || b
 TBD: `or` keyword
 
 ### and
-    c = a && b
+    c := a && b
 TBD: `and` keyword
 
 ### not
@@ -164,7 +168,7 @@ If you want to deal with global variables, you must access them from the global 
 The compiler or linter should catch references to undeclared variables.
 
 ### null-or
-    c = a ?? b
+    c := a ?? b
 ---
     const c = (a != null ? a : b);
 
@@ -194,11 +198,11 @@ See [the standard library]() for `isFunction` (tl;dr, it comes from lodash).
 ## Objects and Arrays
 
 ### Single-Line Objects
-    obj = { a: 'a', b, [1 + 1]: 'two', ...anotherObj }
+    obj := { a: 'a', b, [1 + 1]: 'two', ...anotherObj }
 Destructuring, dynamic names, and splats are the same as in JS.
 
 ### Multi-Line Objects
-    obj = {
+    obj := {
       a: 'a'
       b
       [1 + 1]: 'two'
@@ -208,7 +212,7 @@ Commas are not necessary. Using commas in a multiline object raises a linting er
 More importantly, note that the closing `}` is not required; a dedent is used instead. It is a linting error to use a `}` for an object that is less than ¿25? lines. It is a linting error not to use a `}` for an object that is longer.
 
 ### Nested Objects
-    obj = {
+    obj := {
       a: 
         a1: 1
         a2: 2
@@ -222,8 +226,8 @@ More importantly, note that the closing `}` is not required; a dedent is used in
 Once you have begun an object definition with a `{`, you do not need to 
 
 ### Destructured Property Transfer
-    bar = { a: 1 }
-    foo = { b: 2, c: 3, d: 4 }
+    bar := { a: 1 }
+    foo := { b: 2, c: 3, d: 4 }
     bar{ b, c } = foo
 ---
     const bar = { a: 1 }
@@ -232,11 +236,11 @@ Once you have begun an object definition with a `{`, you do not need to
     bar.c = foo.c;
 
 ### Single-Line Arrays
-    arr = [1 2 3 (5 - 1) 5]
+    arr := [1 2 3 (5 - 1) 5]
 Commas are unnecessary, and raise a linting error. Elements that are expressions must be wrapped in parentheses.
 
 ### Multi-Line Arrays
-    arr = [
+    arr := [
       1 
       2 
       (2 + 1) 
@@ -245,14 +249,14 @@ Commas are unnecessary, and raise a linting error. Elements that are expressions
 Again, commas are unnecessary, and raise a linting error. Elements that are expressions no longer need to be wrapped in parentheses, but doing so does not raise a linting error.
 
 ### Word Arrays
-    words = w[hello world, it's been a while.]
+    words := w[hello world, it's been a while.]
 ---
     const words = ['hello', 'world,', 'it\'s', 'been', 'a', 'while.'];
 Prefixing an array with `w` means all its elements are treated as strings. Interpolation occurs as normal, without 
 
 ### Word Arrays with Interpolation
-    n = 7
-    words = W[hello world, it's been {n}+ years.]
+    n := 7
+    words := W[hello world, it's been {n}+ years.]
 ---
     const words = ['hello', 'world,', 'it\'s', 'been', `${n}+`, 'years.'];
 To use interpolation within a word array, use an uppercase `W`.
@@ -370,7 +374,7 @@ EcmaScript has three kinds of `for` loops; `for-in`, `for-of`, and `for (...;...
 
 ### `for-in`
     for key in obj
-      val = obj[key]
+      val := obj[key]
 As in EcmaScript. 
 
 Using `in` with an Array is usually not what you want, and will raise an error. The type of an interable must therefore be inferrable to be used with `for-in` (ie; you can't do `for key in thing` if `thing` has type `any`).
@@ -498,16 +502,16 @@ This feature is a "maybe", since `map` should typically be used instead. However
 
 Array Comprehensions:
 
-    doubledItems = [ for item of array: item * 2 ]
-    filteredItems = [ for item of array: if item > 3: item ]
+    doubledItems := [ for item of array: item * 2 ]
+    filteredItems := [ for item of array: if item > 3: item ]
 
 Object Comprehensions:
 
-    objFromArr = { for i, item from array: "thing_{i}", item }
+    objFromArr := { for i, item from array: "thing_{i}", item }
 
-    objFromObj = { for own key, value in obj: key, value * 2 }
+    objFromObj := { for own key, value in obj: key, value * 2 }
 ---
-    objFromObj = (() => {
+    const objFromObj = (() => {
       const returnValue = {};
       for (const key in obj) {
         if (!obj.hasOwnProperty(key)) continue;
