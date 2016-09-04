@@ -2,19 +2,15 @@
 
 ## Arrays
 
-    for i from 0 to 10
-        for (let i = 0; i <= 10; i++)
     for i from 0 til 10
         for (let i = 0; i < 10; i++)
     for i from 0 til 10 step 2
         for (let i = 0; i < 10; i += 2)
-    for i from 10 downTo 0
-        for (let i = 10; i >= 0; i--)
     for i from 10 downTil 0 step 2
         for (let i = 10; i > 0; i-= 2)
 
     for i from 0 til array.length
-    for i from array.length - 1 downTo 0
+    for i from array.length - 1 downTil 0
 
     for i from array
         # UNSURE; error, or:

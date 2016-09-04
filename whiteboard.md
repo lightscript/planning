@@ -1,5 +1,187 @@
 
 
+
+
+
+
+
+
+
+
+
+foo(a: number, b: number): number -> 
+  a + b
+
+foo(a, b): void ->
+  console.log(a, b)
+
+export class Foo extends Bar
+  constructor(^a, ^b) ->
+    super(a, b)
+  foo() =>
+    1
+
+foo() ->
+  c = if a()
+    1
+  else if b()
+    2
+  c + 1
+
+  c = if a(): b else 'hi'
+
+foo(arr) ->
+  for (var i = 0; i < arr.length; i++)
+
+  for elem of arr: 
+    if elem > 3: 
+      doSomething(elem)
+
+  for own k, v in obj
+  ---
+  for (const key in obj) {
+    if (!obj.hasOwnProperty(key)) continue;
+    const val = obj[key]
+  }
+
+  for 
+
+
+
+
+
+obj = {
+  a: 'a'
+  b
+  [1 + 1]: 'two'
+  child:
+    nested: 'prop'
+    arr: [
+      1
+      2
+      3
+
+arr = [(1 typeof 3) 1 3 5 (1 + 1) func(a, b) anotherFunc('hello') ]
+
+foo()
+
+foo!.bar!.hello(a, b)
+
+foo! a, {
+  child: prop
+  b
+
+setTimeout! ->
+    foo()
+  1000
+
+foo! bar(a)
+
+
+aFoo() -/>
+  try
+    result: Json <- fetchSomething()
+  catch (err)
+    ...
+
+  result <?- fetchSomething()
+  if result is Error
+    handleIt()
+    return/throw
+
+
+  const result = await wrapAsyncResult(fetchSomething);
+
+
+AsyncResult<T> = T | AsyncError
+async function wrapAsyncResult(fn: any => T): AsyncResult<T> {
+  try { return await fn() } catch (err) { return err };
+}
+
+  result <?- fetchSomething()
+  match result
+    | AsyncError |> 'goodbye'
+    | Json |> 'hello'
+
+  result, err := someCall()
+  if err != nil {
+    handleIt()
+  }
+
+type PositiveInteger = refinement(number, x => x % 0 === 0 && x >= 0)
+type Person = {
+  name: string
+  age: ?number
+
+alan = Person! {
+  name: 'alan'
+
+Person.update(alan, { age: { $set: 27 } })
+alan2 = alan.age~~$set(27)
+
+
+class Person
+  talkTo(otherPerson)
+
+alan = Person()
+alan.talkTo(alex)
+
+type Person...
+talkTo(person1: Person, person2: Person)
+
+talkTo(alan, alex)
+
+
+alan
+  ~talkTo(alex)
+  ~talkTo(jerry)
+  ~talkTo(bob)
+
+if x~isNumber!
+  doMath(x)
+
+3~binaryLeftShift(8)
+<<
+  result.something()
+  <- waitForSomething()
+  result
+
+foo(let a, mut b: object) ->
+  a += 1
+  b.prop = 7
+
+foo(8, mut { b: 'hi' })
+
+a = 7
+
+foo() -pr>
+foo() -pw>
+foo() -prw>
+
+
+arr[i+1]
+
+<!-- CASES TO EXPLICITLY DISALLOW (PROBABLY) -->
+a?.b = c()
+++a?.b
+
+gFoo() -*>
+  yield something()
+  yield* someOtherGenerator()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 foo() ->
   1
 
@@ -335,3 +517,9 @@ someCall! firstArg, [{
   {
     foo: 'foo'
     bar
+
+
+
+
+
+fn 

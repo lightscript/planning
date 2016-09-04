@@ -206,3 +206,28 @@ myFn({a: [1, 3, 5
     hello
 # (in the latter case, hello is destructured)
 
+
+
+
+
+
+## From chat with Alan
+for-own-in – should be default, but how to provide escape hatch?
+  otherwise, how to encourage?
+function-terminating `for` loops – return value??
+try to avoid iife's anywhere, because can't `return` as expected.
+a?.b = c() – probably disallow? (several similar things)
+<?- with an expected return type of an Error... disallow at compile time?
+<?- should maybe explicitly unpack somehow? but then how to enforce only one of result, err is null?
+linting the line after <?- might get really tricky – maybe only allow pattern-matching?
+
+
+shadowing?
+a = 6
+
+fn() {
+  a = 7
+}
+
+
+
