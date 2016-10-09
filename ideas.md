@@ -341,3 +341,42 @@ UNKOWN: Do `b` and `c` enter scope?
 ### Single-Line Object Nesting
     obj = { aunt: 4, parent: child: grandchild: 5 }
 Would need to come at the end.
+
+
+
+
+### Function inlining
+
+uhh, allow some kind of function inlining?
+
+    perfSensitiveFn(a, b) -inline>
+      a += 1
+      b += 2
+      a ** b
+    biggerFn() ->
+      a := 3
+      b := 4
+      let c := perfSensitiveFn(a, b)
+      c *= 2
+      c
+---
+    function biggerFn() {
+      const a = 3;
+      const b = 4;
+      // begin inline perfSensitiveFn
+      let perfSensitiveFn__retval;
+      let perfSensitiveFn__a = a, perfSensitiveFn__b = b;
+      perfSensitiveFn__a += 1;
+      perfSensitiveFn__b += 2;
+      perfSensitiveFn__retval = a ** b;
+      let c = perfSensitiveFn__retval;
+      // end inline perfSensitiveFn 
+      c *= 2;
+      return c;
+    }
+
+There's obviously a lot to think through with something like this, 
+it probably could be a completely unrelated babel plugin along the lines of 
+https://www.npmjs.com/package/babel-plugin-transform-inline-functions
+but better. 
+The chief advantage would be syntax (rather than, say special function name).
