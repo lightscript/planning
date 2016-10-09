@@ -223,7 +223,7 @@ More importantly, note that the closing `}` is not required; a dedent is used in
         1
         2
       d: 'd'
-Once you have begun an object definition with a `{`, you do not need to 
+Once you have begun an object definition with a `{`, you do not need to close it.
 
 ### Destructured Property Transfer
     bar := { a: 1 }
