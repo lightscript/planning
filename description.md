@@ -17,8 +17,8 @@ Functional Programming made Approachable
 
 LightScript was designed for high productivity at both early and late stages of application lifecycles.
 
-It helps you prototype quickly with minimal keystrokes, removing the barriers between idea and working product.
+LightScript helps you prototype quickly with minimal keystrokes, removing the barriers between idea and working product.
 
-It also helps maintain large codebases with powerful intellisense from strong static typing and an advanced linter, convenient constructs to encourage bug-free code, 
+LightScript also helps maintain large codebases with powerful intellisense from strong static typing and an advanced linter, convenient constructs to encourage bug-free code, 
 
 such as immutability, existential operators, intuitive asynchronous error handling, 

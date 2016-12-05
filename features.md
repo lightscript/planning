@@ -1,8 +1,8 @@
 
 Syntax
-- pure-whitespace 
+- pure-whitespace
     - if/for/fn/class/bangcall/match
-- no-closing-punc-whitespace 
+- no-closing-punc-whitespace
     - object/array/type
 - no-comma objects, arrays
 - implicit returns
@@ -12,7 +12,7 @@ Syntax
     - async -/>, generator -*>
 - await <-
     - safe-await <?-
-- fat arrows 
+- fat arrows
     - bound methods
 - "{interpolation}"
 - not (?)
@@ -27,8 +27,7 @@ Features
 - Squiggly methods (subject verb object) w/ stdlib (mostly lodash)
 - Types (static+runtime)
 - Match
-- Ranges
-- Print 
+- Print
 - pin ^prop, constructor auto-binding
 - existentialism (?. ?? ?)
 - multiline strings/regexes
@@ -40,5 +39,3 @@ Features
 - pure-read, pure-write (later)
 - word lists?
 - it-lambda's?
-
-

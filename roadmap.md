@@ -1,41 +1,43 @@
 
-# Roadmap 
+# Roadmap
 
 ## Language Features
 
-Seem easier, do first:
-1. ~
-1. # comments
+Done(ish):
 1. const
-1. tcomb
-1. ~~
-1. stdlib
-1. remove operators
-1. match
-1. print
-1. <-
-1. =/>
-1. <?-
-1. ^pin
-1. constructor auto-binding
-1. bound methods
-1. ternaries
+1. for-from
 1. paren-free if/for
+1. comprehensions
+1. ~
+1. word operators (is, isnt, or, and, not)
+
+Seem easier, do first:
+1. ^pin
+1. for-own
+1. safe accessor &.
+1. remove bitwise operators
+1. stdlib
 1. no-arg bangcall!
-1. "inter{pol}ation"
-1. multiline comments
+1. <-
+1. <?-
+1. constructor auto-binding
+1. ternaries
+1. ~~
 1. multiline string/regex
+1. =/>
+1. bound methods
+
+Decide:
+1. tcomb
+1. match
 1. `js escape hatch`
+1. "inter{pol}ation"
+1. print
 
 Trickier/later:
 - commaless arrays
 - commaless objects
-- for-own
-- for-from
-- comprehensions
 - destructured prop transfer
-- existentialism (?, ?., ??)
-- ranges
 - slices
 - array.0.access
 - obj."str{i}ng".access
@@ -59,9 +61,8 @@ We will need to build:
 - example repos
 - public documentation website
 - linter (eslint + flow + custom)
-- awesome error messages 
+- awesome error messages
 - intellisense (aka flow interop)
 - js2lightscript
 - coffee2lightscript
 - typescript2lightscript
-
