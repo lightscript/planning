@@ -18,8 +18,7 @@ Seem easier, do first:
 1. remove bitwise operators
 1. stdlib
 1. no-arg bangcall!
-1. <-
-1. <?-
+1. <-, <?-, =/>
 1. constructor auto-binding
 1. ternaries
 1. ~~
