@@ -10,45 +10,44 @@ Done(ish):
 1. comprehensions
 1. ~
 1. word operators (is, isnt, or, and, not)
+1. array.0.access
+1. whitespace & implicit returns
+1. commaless arrays/objects
+1. -/>, =/>, etc
+1. bound methods
+1. ternaries
 
-Seem easier, do first:
+Do first:
+1. <-, <?-
 1. ^pin
+1. stdlib
 1. for-own
 1. safe accessor &.
 1. remove bitwise operators
-1. stdlib
-1. no-arg bangcall!
-1. <-, <?-, =/>
-1. constructor auto-binding
-1. ternaries
-1. ~~
-1. multiline string/regex
-1. =/>
-1. bound methods
 
 Decide:
+1. require leading zero in decimal literals
 1. tcomb
 1. match
-1. `js escape hatch`
+1. immutability / freeze operator
+1. ~~
 1. "inter{pol}ation"
+1. obj.`str${i}ng`.access
 1. print
-
-Trickier/later:
-- commaless arrays
-- commaless objects
-- destructured prop transfer
-- slices
-- array.0.access
-- obj."str{i}ng".access
-
-Elephant in the room:
-- whitespace & implicit returns
+1. no-arg bangcall!
+1. bangcall! with whitespace
+1. slices
+1. destructured prop transfer
+1. multiline string/regex
 
 Not for first version:
-- let, mut in args
-- pure-read, pure-write
-- word lists
-- it-lambda's
+1. let, mut in args
+1. pure-read, pure-write
+1. word lists
+1. it-lambda's
+
+I think not:
+1. `js escape hatch`
 
 
 ## Tooling etc.
