@@ -20,9 +20,11 @@ Done(ish):
 Do first:
 1. <-, <?-
 1. ^pin
-1. stdlib
 1. for-own
-1. safe accessor &.
+1. for-in-val (for k, v in obj)
+1. existentialism (`?`, `??`, `?.`, `?()`, `?=`)
+1. object comprehensions
+1. stdlib
 1. remove bitwise operators
 
 Decide:

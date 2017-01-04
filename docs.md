@@ -5,36 +5,15 @@
 
 ## Variables & Assignment
 
-## `const`
+### `const`
     foo := 'hello'
 
-## Annotated `const`
+### Annotated `const`
     foo: string = 'hello'
 LightScript uses Facebook's [Flow](flowtype.org) typechecker and type syntax.
 
-## `let`
-    let bar := 3
-    bar = 4
-
-    let baz
-    baz = 4
-
-## Annotated `let`
-    let baz: string = 'foo'
-
-    let bar: number
-    bar = 3
-LightScript uses Facebook's [Flow](flowtype.org) typechecker and type syntax.
-
-## `var`
-`var` will probably not be added.
-
-
-## Comments
-    # this is a comment
-    ###
-    This is a multi-line comment.
-    ###
+### `let` and `var`
+As in JavaScript.
 
 
 ## Function Definition
@@ -42,24 +21,64 @@ LightScript uses Facebook's [Flow](flowtype.org) typechecker and type syntax.
 ### Basic
     foo() -> 1
     foo(a, b) -> a + b
+---
+    function foo() {
+      return 1;
+    }
+    function foo(a, b) {
+      return a + b;
+    }
+
+### Without implicit returns
+    foo() -> {
+      1
+    }
+---
+    function foo() {
+      1;
+    }
+To disable implicit returns for a method, wrap it in curly braces.
+(This may change in the future, most likely to a `void` type annotation).
+LightScript will also not add implicit returns to setter methods or constructor methods.
 
 ### Annotated
     foo(a: string, b: number): number ->
       a.length + b
 
 ### Anonymous
-    fnWithCallback(() -> 42)
-    fnWithCallback(-> 42)
+    runCallback(() -> 42)
+    runCallback(param -> param * 2)
+    runCallback(param => param * 2)
+---
+    runCallback(function () { return 42; });
+    runCallback(function (param) { return param * 2; });
+    runCallback(param => param * 2);
 
 ### Bound
     foo() => this.someProp
+---
+    const foo = () => this.someProp
+Compiles to ES6 fat arrows whenever possible.
+See also [bound methods]().
+
+Note that when used in an expression, the name is discarded:
+    runCallback(foo() => 1)
+---
+    runCallback(() => 1)
 
 ### Async
     foo() -/>
       Promise.resolve(42)
     boundFoo() =/>
       Promise.resolve(this.answer + 42)
-See also [await]()
+---
+    async function foo() {
+      return Promise.resolve(42);
+    }
+    const boundFoo = async () => {
+      return Promise.resolve(this.answer + 42);
+    }
+See also [await]().
 
 ### Generators
     foo() -*>
@@ -92,11 +111,13 @@ See also [await]()
 
 ### Getters and Setters
     obj := {
-      get foo() -> 'hello'
-      set foo(newValue) -> this._foo = newValue
+      foo() -get> this._foo
+      foo(newValue) -set> this._foo = newValue
     }
 
 See also [Classes]().
+Note that fat arrows (`=get>` and `=set>`) are not available,
+as getters and setters generally do not require binding.
 
 
 ## Conditionals
@@ -104,61 +125,104 @@ See also [Classes]().
 ### Basic `if`
     if a === b:
       console.log('a is b')
+      console.log('b is a, too')
+
+Note that you can also use traditional `if (test) {}` syntax if you prefer,
+though `elif` and if-expressions (see below) do not currently work with it.
 
 ### One-line `if`
     if a !== b: console.log('a isnt b')
 
     foo(a) ->
       if a.length === 0: return
-      # ...
+      // ...
 
-### One-line `if` with early `and return`
-    foo(a) ->
-      if a.length === 0: console.log('darn') and return
-      # ...
+### `elif`
+    if a == 1:
+      foo()
+    elif a > 2:
+      bar()
+    else:
+      baz()
 
-### Ternaries
-    animal := if canBark: 'dog' else 'cow'
+`else if` also works.
 
-### `null`-default Ternaries
+### If-Expressions (Ternaries)
+    animal := if canBark: 'dog' else: 'cow'
+
+You can also use `elif` and `else if` within if-expressions.
+
+### `null`-default If-Expressions (Ternaries)
     animal := if canBark: 'dog'
 ---
     const animal = canBark ? 'dog' : null;
 
-### Multiline Ternaries (aka `if` expressions)
+### Multiline If-Expressions (Ternaries)
     animal := if canBark:
+      'dog'
+    else if canMeow:
+      'cat'
+    else:
+      'cow'
+
+Note that currently, an extra indent for the `else`'s above is not allowed.
+Instead, you can do:
+
+    animal :=
+      if canBark:
         'dog'
-      else if canMeow:
+      elif canMeow:
         'cat'
       else:
         'cow'
-TBD: if you need the extra indent or not.
 
+## Logic and Equality
 
-## Logic
+### `or`
+    a or b
 
-### or
-    c := a || b
-TBD: `or` keyword
+### `and`
+    a and b
 
-### and
-    c := a && b
-TBD: `and` keyword
-
-### not
+### `not`
     not c
-TBD: also allowing `!` prefix, and/or removing `not` entirely.
-The problem is that `!` is also used in the [bangcall feature]().
+---
+    !c
+`not` has the same precedence rules as `!`.
+
+### `is`
+    1 is 1
+---
+    1 === 1
+
+### `isnt`
+    1 isnt 2
+---
+    1 !== 2
+
+### Example
+
+    if a is b: 'a === b'
+    elif b isnt c: 'b !== c'
+    elif d and not e: 'd is truthy, e is falsy'
+    elif g or h: 'either g or h is truthy'
+
 
 ### Bitwise Operators
-Bitwise operators (namely `|`, `&`, `^`, `~`, `<<`, `>>`, `>>>`) are not included in the language. Instead, they are [provided as functions]() in the standard library.
+Bitwise operators (namely `|`, `&`, `^`, `~`, `<<`, `>>`, `>>>`) are not included in the language.
+Instead, they are [provided as functions]() in the standard library.
 
+Bitwise assignment operators (namely `|=`, `&=`, `^=`, `<<=`, `>>=`, `>>>=`)
+may be repurposed in the future, but have not yet been removed.
 
 ## Existentialism
 
 NOTE TO SELF: https://github.com/getify/You-Dont-Know-JS/blob/master/types%20%26%20grammar/ch4.md#comparing-nulls-to-undefineds
 
-## Existential operator
+NOTE TO OTHERS:
+Work has not yet begun on the Existential features below.
+
+### Existential operator
     if a?:
       1
 ---
@@ -166,6 +230,15 @@ NOTE TO SELF: https://github.com/getify/You-Dont-Know-JS/blob/master/types%20%26
 Note that this does not perform an "undeclared" check, as CoffeeScript does.
 If you want to deal with global variables, you must access them from the global object (eg, `window`) directly.
 The compiler or linter should catch references to undeclared variables.
+
+Note that disambiguation between the existential `?` and the ternary `?`
+(as in `test ? 'its truthy' : 'its falsy'`)
+is done on the basis of whether the `?` has a space in front of it.
+
+So `x ?` will be parsed (incorrectly) as the beginning of a ternary,
+while `x? 'truthy' : 'falsy'` will be parsed (incorrectly) as an existential `?`.
+
+The use of `? :` ternaries is discouraged in LightScript in favor of [If-Expressions]().
 
 ### null-or
     c := a ?? b
@@ -206,24 +279,11 @@ Destructuring, dynamic names, and splats are the same as in JS.
       a: 'a'
       b
       [1 + 1]: 'two'
+      method() =>
+        3
       ...anotherObj
+    }
 Commas are not necessary. Using commas in a multiline object raises a linting error.
-
-More importantly, note that the closing `}` is not required; a dedent is used instead. It is a linting error to use a `}` for an object that is less than ¿25? lines. It is a linting error not to use a `}` for an object that is longer.
-
-### Nested Objects
-    obj := {
-      a:
-        a1: 1
-        a2: 2
-      b:
-        b1: 1
-        b2: 2
-      c: [
-        1
-        2
-      d: 'd'
-Once you have begun an object definition with a `{`, you do not need to close it.
 
 ### Destructured Property Transfer
     bar := { a: 1 }
@@ -236,25 +296,26 @@ Once you have begun an object definition with a `{`, you do not need to close it
     bar.c = foo.c;
 
 ### Single-Line Arrays
-    arr := [1 2 3 (5 - 1) 5]
-Commas are unnecessary, and raise a linting error. Elements that are expressions must be wrapped in parentheses.
+    arr := [1, 2, 3]
 
 ### Multi-Line Arrays
     arr := [
       1
       2
-      (2 + 1)
+      2 + 1
       5 - 1
       5
-Again, commas are unnecessary, and raise a linting error. Elements that are expressions no longer need to be wrapped in parentheses, but doing so does not raise a linting error.
+    ]
+Again, commas are unnecessary.
 
-### Word Arrays
+### Word Arrays (TBD)
     words := w[hello world, it's been a while.]
 ---
     const words = ['hello', 'world,', 'it\'s', 'been', 'a', 'while.'];
 Prefixing an array with `w` means all its elements are treated as strings. Interpolation occurs as normal, without
+This feature
 
-### Word Arrays with Interpolation
+### Word Arrays with Interpolation (TBD)
     n := 7
     words := W[hello world, it's been {n}+ years.]
 ---
@@ -266,6 +327,7 @@ To use interpolation within a word array, use an uppercase `W`.
 ### Basic Classes
     class Animal:
       talk() -> 'grrr'
+
     class Person extends Animal:
       talk() -> 'hello!'
 
@@ -292,10 +354,12 @@ Note that unlike coffeescript, `^` cannot be used on its own to refer to `this`.
 
 ### Getters and Setters
     class Animal:
-      get noise() ->
-        ^sound || 'grrr'
-      set noise(newValue) ->
+      noise() -get>
+        ^sound or 'grrr'
+      noise(newValue) -set>
         ^sound = newValue
+
+See also Object Methods.
 
 ### Class properties ("class instance fields")
     class Animal:
@@ -308,7 +372,17 @@ As in EcmaScript.
       static canMakeNoise() -> true
 As in EcmaScript.
 
-Note that you cannot use a fat arrow (`=>`) with a static method.
+### Bound static methods
+    class Animal:
+      static kingdom() => ^name
+---
+    class Animal {
+      static kingdom() {
+        return this.name
+      }
+    }
+    Animal.kingdom = Animal.kingdom.bind(Animal);
+In this example, `kingdom()` will always return `'Animal'` regardless of its calling context.
 
 ### Pinned constructor params
     class Animal:
@@ -334,10 +408,10 @@ Note that you cannot use a fat arrow (`=>`) with a static method.
       constructor(...args) {
         super(...args);
         this.handleClick = this.handleClick.bind(this);
-      },
+      }
       handleClick({ currentTarget: { value } }) {
         this.setState({ value });
-      },
+      }
       render() {
         return (
           <button onClick={this.handleClick}>
@@ -346,52 +420,84 @@ Note that you cannot use a fat arrow (`=>`) with a static method.
         );
       }
     }
-Use a fat arrow (`=>`) to bind class methods. This will be added to the constructor after a `super` call, which will be created if it does not exist.
+Use a fat arrow (`=>`) to bind class methods.
+This will be added to the constructor after a `super` call, which will be created if it does not exist.
 
+You cannot use bound class methods if you `return super()`,
+which is something you usually [shouldn't do anyway](TODO).
+
+### Auto-Super
+    class MyComponent extends React.Component:
+      constructor(foo) ->
+        console.log("I forgot to call super!")
+---
+    class MyComponent extends React.Component {
+      constructor(foo) {
+        super(arguments);
+        console.log("I forgot to call super!")
+      }
+    }
+LightScript will insert `super()` for you if you define a `constructor` in a class that `extends` another class,
+and will pass along your parameters to the baseclass.
+
+Do disable this, use curly braces for your constructor method:
+    class A extends B:
+      constructor(foo) {
+        console.log("I actually don't want to call super")
+      }
+---
+    class A extends B {
+      constructor(foo) {
+        console.log("I actually don't want to call super")
+      }
+    }
+
+This behavior may be changed in the future.
 
 ## Switch
-Switch statements are not allowed. Use `match` or if-else chains instead.
-
-This omission is because switch statements tend to be anemic, inconvenient, and confusing. They may be added in the future.
-
+As in JavaScript. You can use without parens or braces, like so:
+    switch val:
+      case "x":
+        break
+      case "y":
+        break
+This may be removed in the future, however.
 
 ## Numbers
 
-### Underbars
+### Underbars (TBD)
     oneMillionDollars: Cents = 1_000_000_00
 ---
     const oneMillionDollars: Cents = 100000000;
 
-### Restrictions
-- Decimals must be prefixed with a zero (eg, `.9` is not allowed, but `0.9` is).
-- Scientific notation (eg; `10e3` is not allowed).
-
-These restrictions are for clarity, simplicity, and ease of parsing, and may be relaxed in the future.
-
+### Restrictions (TBD)
+Decimals must be prefixed with a zero (eg, `.9` is not allowed, but `0.9` is).
 
 ## `for` loops
 
-EcmaScript has three kinds of `for` loops; `for-in`, `for-of`, and `for (...;...;...)`. LightScript has three corresponding `for` loops: `for-in`, `for-of`, and `for-from`.
+EcmaScript has three kinds of `for` loops; `for-in`, `for-of`, and `for (...;...;...)`.
+LightScript has three corresponding `for` loops: `for-in`, `for-of`, and `for-from`.
 
 ### `for-in`
     for key in obj:
       val := obj[key]
-As in EcmaScript.
+As in JavaScript, with `const` as default.
+Note that you do not need to declare the iterator variable as `const`.
 
-Using `in` with an Array is usually not what you want, and will raise an error. The type of an interable must therefore be inferrable to be used with `for-in` (ie; you can't do `for key in thing` if `thing` has type `any`).
+PSA: using `in` with an Array is usually [not what you want](TODO); use `for-from` instead.
 
-### `for-in` with value
+### `for-in` with value (TODO)
     for key, value in obj:
       console.log(key, value)
 ---
     for (const key in obj) {
       const value = obj[key];
-      console.log(key, value)
+      console.log(key, value);
     }
 
-As noted above, cannot be used with Arrays.
+As noted above, should not be used with Arrays.
 
-### `for-own-in`
+### `for-own-in` (TODO)
     for own key in obj:
 ---
     for (const key in obj) {
@@ -403,7 +509,7 @@ As noted above, cannot be used with Arrays.
       if (!obj.hasOwnProperty(key)) continue;
       const value = obj[key];
 
-As noted above, cannot be used with Arrays.
+As noted above, should not be used with Arrays.
 
 ### `for-of`
     for elem of array:
@@ -412,7 +518,7 @@ As noted above, cannot be used with Arrays.
     for val of obj:
       console.log(val)
 
-As in EcmaScript.
+As in JavaScript, with `const` as default.
 
 Note that you can also do this:
 
@@ -420,10 +526,14 @@ Note that you can also do this:
 
 Which is a feature of modern EcmaScript.
 
-### `for-from` 
+### `for-from`
     for i from array:
+      console.log(i)
 ---
-    for (let i = 0; i < array.length; i++)
+    for (let i = 0; i < array.length; i++) {
+      console.log(i);
+    }
+
 
     for i, x from array:
       console.log(x)
@@ -433,7 +543,8 @@ Which is a feature of modern EcmaScript.
       console.log(x);
     }
 
-Note that this feature is not to be used with Objects, only Arrays; for Objects, see [`for-own-in` with value]().
+Note that this feature is not to be used with Objects, only Arrays;
+for Objects, see [`for-own-in` with value]().
 
 ### `for-from-til`
 
@@ -445,35 +556,69 @@ Without iterator variable:
 
     for 0 til 10:
 ---
-    for (let __i = 0; __i < 10; __i++)
+    for (let _i = 0; _i < 10; _i++)
+
+Note that the above is exclusive (it goes up to 9, not 10); for inclusive, use `thru`:
+
+    for i from 0 thru 10:
+---
+    for (let i = 0; i <= 10; i++)
+
+which would start with 0 and end with 10.
 
 ### `for init ; test ; update`
 
-When the `for i from array` or `for i from 0...n` constructs are insufficient, you may use a traditional `;;` for-loop:
-    
+When the `for i from array` or `for i from 0 til n` constructs are insufficient, you may use a traditional `;;` for-loop:
+
     for let i = 10; i >= -10; i--:
 
 ### Single-line `for`
     for elem of collection: console.log(elem)
 
-This syntax can be used with all three kinds of for loops.
+This syntax can be used with all for-loops.
 
 Note that you can combine this with single-line `if` statements:
 
     for elem of collection: if elem > 3: console.log(elem)
 
-Note also that multi-line `for` loops may use a trailing colon, but it raises a linter error.
 
-### Comprehensions
+## Comprehensions
 
-This feature is a "maybe", since `map` should typically be used instead. However, there's no convenient and efficient way to iteratively build an object in a one-liner.
+### Array Comprehensions
 
-Array Comprehensions:
+    doubledItems := [for item of array: item * 2]
+    filteredItems := [for item of array: if item > 3: item]
 
-    doubledItems := [ for item of array: item * 2 ]
-    filteredItems := [ for item of array: if item > 3: item ]
+Note that you can nest for-loops within an array, and they can take up multiple lines:
 
-Object Comprehensions:
+    listOfPoints := [
+      for x of xs:
+        for y of ys:
+          x + y
+    ]
+
+You can also nest comprehensions within comprehensions for constructing multidimensional arrays:
+
+    matrix := [
+      for row from 0 til n:
+        [ for col from 0 til n: { row, col } ]
+    ]
+
+Note that if `else` is not provided, items that do not match an `if` are filtered out; that is,
+
+    [for i from 1 thru 4: if i > 2: i]
+
+will result in `[3, 4]`, not `[null, null, 3, 4]`
+
+For the time being, only `for`, `if` and expressions can appear within Comprehensions.
+Furthermore, `if`s can only contain expresssions, not other `if`s or `for`s.
+For example, the following would be a syntax error:
+
+    [for x of arr: if true: for y in obj: x + y]
+
+This may be revisited in the future to be more flexible.
+
+### Object Comprehensions (TODO)
 
     objFromArr := { for i, item from array: "thing_{i}", item }
 
