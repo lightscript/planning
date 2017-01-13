@@ -190,7 +190,7 @@ Instead, you can do:
     !c
 `not` has the same precedence rules as `!`.
 
-### `==` (TODO)
+### `==`
     1 == 1
 ---
     1 === 1
@@ -200,7 +200,7 @@ Both `==` and `===` compile to `===`, which is almost always what you want.
 When you actually want to use a coercing-equals,
 call the [`coercingEq()`]() function from the standard library (eg; `1~coercingEq('1')`).
 
-### `!=` (TODO)
+### `!=`
     1 != 0
 ---
     1 !== 0

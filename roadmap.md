@@ -54,7 +54,7 @@ Done(ish):
 1. paren-free if/for
 1. comprehensions
 1. ~
-1. word operators (or, and, not)
+1. operators (==, !=, or, and, not)
 1. array.0.access
 1. whitespace & implicit returns
 1. commaless arrays/objects
@@ -70,7 +70,10 @@ Do first:
 1. existentialism (`?`, `??`, `?.`, `?()`, `?=`)
 1. object comprehensions
 1. stdlib
-1. == and coercingEq()
+  - coercingEq(), coercingNotEq()
+  - bitwiseAnd() etc
+  - lodash
+  - tcomb (?)
 1. remove bitwise operators
 
 Hopefully next:
