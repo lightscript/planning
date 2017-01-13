@@ -190,20 +190,31 @@ Instead, you can do:
     !c
 `not` has the same precedence rules as `!`.
 
-### `is`
-    1 is 1
+### `==` (TODO)
+    1 == 1
 ---
     1 === 1
 
-### `isnt`
-    1 isnt 2
+Both `==` and `===` compile to `===`, which is almost always what you want.
+
+When you actually want to use a coercing-equals,
+call the [`coercingEq()`]() function from the standard library (eg; `1~coercingEq('1')`).
+
+### `!=` (TODO)
+    1 != 0
 ---
-    1 !== 2
+    1 !== 0
+
+Similarly, both `!=` and `!==` compile to `!==`.
+
+When you actually want to use a coercing-not-equals,
+call the [`coercingNotEq()`]() function from the standard library.
+
 
 ### Example
 
-    if a is b: 'a === b'
-    elif b isnt c: 'b !== c'
+    if a == b: 'a === b'
+    elif b != c: 'b !== c'
     elif d and not e: 'd is truthy, e is falsy'
     elif g or h: 'either g or h is truthy'
 
