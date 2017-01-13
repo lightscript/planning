@@ -1,6 +1,51 @@
 
 # Roadmap
 
+## Marketing
+
+- blog posts
+  - babylon: how to add an operator
+  - babylon: how to get set up creating a language
+  - babylon: how to add a statement
+  - babylon: how to futz with assignments
+  - babylon: how to futz with chaining/subscripts
+  - babel: how to define your own types
+  - babel: how to make implicit let/const
+  - babel: the photon call
+- unrelated, ship PR for defineType
+- javascript jabber
+  - listen to the typescript one
+  - try to get on it
+- other podcasts
+
+## Tooling
+
+- usage
+  - CLI
+  - webpack
+  - register
+- editor integration
+  - syntax
+  - unified linter
+    - compiler errors
+    - flow
+    - eslint
+- make flow work
+- define good code
+  - fork prettier, update all the things
+  - eslint integration, rules
+- installation
+
+## Docs
+
+- ASI
+- JS incompatibilities
+- Compile into website
+- Paren-free/curly
+- implicit returns
+- whitespace rules
+-
+
 ## Language Features
 
 Done(ish):
@@ -9,7 +54,7 @@ Done(ish):
 1. paren-free if/for
 1. comprehensions
 1. ~
-1. word operators (is, isnt, or, and, not)
+1. word operators (or, and, not)
 1. array.0.access
 1. whitespace & implicit returns
 1. commaless arrays/objects
@@ -25,22 +70,28 @@ Do first:
 1. existentialism (`?`, `??`, `?.`, `?()`, `?=`)
 1. object comprehensions
 1. stdlib
+1. == and coercingEq()
 1. remove bitwise operators
 
-Decide:
-1. require leading zero in decimal literals
+Hopefully next:
+1. bangcall no-args
+1. bangcall multiline
 1. tcomb
-1. match
-1. immutability / freeze operator
 1. ~~
+1. match
+1. refinements
+1. destructured prop transfer
+
+Decide:
+1. multiline string/regex
+1. require leading zero in decimal literals
+1. immutability / freeze operator
 1. "inter{pol}ation"
 1. obj.`str${i}ng`.access
 1. print
 1. no-arg bangcall!
 1. bangcall! with whitespace
 1. slices
-1. destructured prop transfer
-1. multiline string/regex
 
 Not for first version:
 1. let, mut in args
