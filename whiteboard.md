@@ -97,7 +97,7 @@ aFoo() -/>
   catch (err)
     ...
 
-  result <?- fetchSomething()
+  result <!- fetchSomething()
   if result is Error
     handleIt()
     return/throw
@@ -111,7 +111,7 @@ async function wrapAsyncResult(fn: any => T): AsyncResult<T> {
   try { return await fn() } catch (err) { return err };
 }
 
-  result <?- fetchSomething()
+  result <!- fetchSomething()
   match result
     | AsyncError |> 'goodbye'
     | Json |> 'hello'
@@ -282,7 +282,7 @@ type FetchResult = ...
 type AsyncResult = FetchResult | AsyncError;
 
 asyncFoo() -/>
-  resp <?- fetch('someUrl')
+  resp <!- fetch('someUrl')
   if t.is(a, Number)
   match resp 
     | AsyncError |> 
@@ -460,7 +460,7 @@ fooA() -/>
 
 
 fooA2() -/>
-  thing <?- fetch(url)
+  thing <!- fetch(url)
   if thing is Error
     blah()
 
@@ -468,7 +468,7 @@ type Dogken = Dog | Chicken
 bar(): Dogken -/>
 
 fooA2() -/>
-  thing: Error | Dogken <?- bar(url)
+  thing: Error | Dogken <!- bar(url)
   foo = match thing
     | Dog |> 'bark'
     | Chicken |> 'bawk'

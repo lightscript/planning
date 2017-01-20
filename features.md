@@ -11,7 +11,7 @@ Syntax
 - annotated arrows
     - async -/>, generator -*>
 - await <-
-    - safe-await <?-
+    - safe-await <!-
 - fat arrows
     - bound methods
 - "{interpolation}"

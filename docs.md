@@ -646,3 +646,75 @@ This may be revisited in the future to be more flexible.
     });
 
 The syntax for this is not yet settled.
+
+
+## Incompatibilities with JavaScript
+
+### Blocks
+In LightScript, a `{` at the beginning of a line parses as the start of an object, not a block.
+For example, the following code would be broken in LightScript:
+
+    if (true)
+    {
+      // body goes here
+    }
+
+You must instead use the following style when using curly braces:
+
+    if (true) {
+
+    }
+
+In the rare case that you wish to use an anonymous block, such as
+
+    function () {
+      // some code up here
+      {
+        // code in an anonymous block here
+      }
+      // more code down here
+    }
+
+you may prefix the anonymous block with a semicolon, as so:
+
+    function () {
+      // some code up here
+      ;{
+        // code in an anonymous block here
+      }
+      // more code down here
+    }
+
+Similarly, if using blocks with `switch`/`case`, you cannot write
+
+    case x:
+      {
+        // contents of block here
+      }
+
+and must instead write
+
+    case x: {
+      // contents of block here
+    }
+
+## Ambiguities
+
+I tried really fucking hard to have no ambiguities.
+Shamefully, at least one has snuck up on me that I don't know a way around:
+
+### Colons, Arrows, and Types
+
+If you have an `if` whose test is a function call,
+and whose consequent is an arrow function without parentheses or curly braces, eg;
+
+    if fn(): x => 4
+
+it will parse as a function `fn() => 4` with type annotation `x`,
+and then throw a SyntaxError: `Unexpected token, expected :`.
+
+This can be corrected by wrapping the param in parens:
+
+    if fn(): (x) => 4
+
+Sorry.

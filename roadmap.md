@@ -61,13 +61,13 @@ Done(ish):
 1. -/>, =/>, etc
 1. bound methods
 1. ternaries
+1. <-, <!-
 
 Do first:
-1. <-, <?-
+1. existentialism (`?`, `??`, `?.`, `?()`, `?=`)
 1. ^pin
 1. for-own
 1. for-in-val (for k, v in obj)
-1. existentialism (`?`, `??`, `?.`, `?()`, `?=`)
 1. object comprehensions
 1. stdlib
   - coercingEq(), coercingNotEq()

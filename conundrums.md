@@ -217,9 +217,9 @@ for-own-in – should be default, but how to provide escape hatch?
 function-terminating `for` loops – return value??
 try to avoid iife's anywhere, because can't `return` as expected.
 a?.b = c() – probably disallow? (several similar things)
-<?- with an expected return type of an Error... disallow at compile time?
-<?- should maybe explicitly unpack somehow? but then how to enforce only one of result, err is null?
-linting the line after <?- might get really tricky – maybe only allow pattern-matching?
+<!- with an expected return type of an Error... disallow at compile time?
+<!- should maybe explicitly unpack somehow? but then how to enforce only one of result, err is null?
+linting the line after <!- might get really tricky – maybe only allow pattern-matching?
 
 
 shadowing?
