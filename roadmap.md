@@ -69,6 +69,7 @@ Do first:
 1. for-own
 1. for-in-val (for k, v in obj)
 1. object comprehensions
+1. <- []
 1. stdlib
   - coercingEq(), coercingNotEq()
   - bitwiseAnd() etc
